@@ -2,402 +2,40 @@ package ca.bcit.comp2522.lab6;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.List;
 
 /**
- * Represents a BookStore with a name, and a list of {@link Novel}s.
+ * Represents a BookStore with a name, and a list of Books.
  *
  * @author Ruan Chu
  * @author Justin Cardas
  * @version 2025
  */
-public class BookStore
+class BookStore<T extends Literature>
 {
 
     private static final int DECADE_DIFFERENCE = 10;
-    private static final int FIRST_NOVEL = 0;
-    private static final int PERCENT_CONSTANT = 100;
-    private static final int NOTHING = 0;
+    private static final int FIRST_BOOK        = 0;
+    private static final int PERCENT_CONSTANT  = 100;
+    private static final int NOTHING           = 0;
 
-    private final String name;
-    private final List<Novel> novels;
+    private final String  name;
+    private final List<T> items;
 
     /**
-     * Constructs a BookStore with a given name and list of {@link Novel}s.
+     * Constructs a BookStore with a given name and list books.
      *
      * @param name the name of the bookstore
-     *             //* @param novels a list of novels in the bookstore
-     * @throws IllegalArgumentException if the name is null or empty
      */
-    public BookStore(final String name)
-    //final List<Novel> novels)
+    BookStore(final String name)
     {
         validateName(name);
         this.name = name;
-        novels = new ArrayList<>();
-        novels.add(new Novel("The Adventures of Augie March",
-                             "Saul Bellow",
-                             1953));
-        novels.add(new Novel("All the King’s Men",
-                             "Robert Penn Warren",
-                             1946));
-        novels.add(new Novel("American Pastoral",
-                             "Philip Roth",
-                             1997));
-        novels.add(new Novel("An American Tragedy",
-                             "Theodore Dreiser",
-                             1925));
-        novels.add(new Novel("Animal Farm",
-                             "George Orwell",
-                             1946));
-        novels.add(new Novel("Appointment in Samarra",
-                             "John O'Hara",
-                             1934));
-        novels.add(new Novel("Are You There God? It's Me, Margaret.",
-                             "Judy Blume",
-                             1970));
-        novels.add(new Novel("The Assistant",
-                             "Bernard Malamud",
-                             1957));
-        novels.add(new Novel("At Swim-Two-Birds",
-                             "Flann O'Brien",
-                             1938));
-        novels.add(new Novel("Atonement",
-                             "Ian McEwan",
-                             2002));
-        novels.add(new Novel("Beloved",
-                             "Toni Morrison",
-                             1987));
-        novels.add(new Novel("The Berlin Stories",
-                             "Christopher Isherwood",
-                             1946));
-        novels.add(new Novel("The Big Sleep",
-                             "Raymond Chandler",
-                             1939));
-        novels.add(new Novel("The Blind Assassin",
-                             "Margaret Atwood",
-                             2000));
-        novels.add(new Novel("Blood Meridian",
-                             "Cormac McCarthy",
-                             1986));
-        novels.add(new Novel("Brideshead Revisited",
-                             "Evelyn Waugh",
-                             1946));
-        novels.add(new Novel("The Bridge of San Luis Rey",
-                             "Thornton Wilder",
-                             1927));
-        novels.add(new Novel("Call It Sleep",
-                             "Henry Roth",
-                             1935));
-        novels.add(new Novel("Catch-22",
-                             "Joseph Heller",
-                             1961));
-        novels.add(new Novel("The Catcher in the Rye",
-                             "J.D. Salinger",
-                             1951));
-        novels.add(new Novel("A Clockwork Orange",
-                             "Anthony Burgess",
-                             1963));
-        novels.add(new Novel("The Confessions of Nat Turner",
-                             "William Styron",
-                             1967));
-        novels.add(new Novel("The Corrections",
-                             "Jonathan Franzen",
-                             2001));
-        novels.add(new Novel("The Crying of Lot 49",
-                             "Thomas Pynchon",
-                             1966));
-        novels.add(new Novel("A Dance to the Music of Time",
-                             "Anthony Powell",
-                             1951));
-        novels.add(new Novel("The Day of the Locust",
-                             "Nathanael West",
-                             1939));
-        novels.add(new Novel("Death Comes for the Archbishop",
-                             "Willa Cather",
-                             1927));
-        novels.add(new Novel("A Death in the Family",
-                             "James Agee",
-                             1958));
-        novels.add(new Novel("The Death of the Heart",
-                             "Elizabeth Bowen",
-                             1958));
-        novels.add(new Novel("Deliverance",
-                             "James Dickey",
-                             1970));
-        novels.add(new Novel("Dog Soldiers",
-                             "Robert Stone",
-                             1974));
-        novels.add(new Novel("Falconer",
-                             "John Cheever",
-                             1977));
-        novels.add(new Novel("The French Lieutenant's Woman",
-                             "John Fowles",
-                             1969));
-        novels.add(new Novel("The Golden Notebook",
-                             "Doris Lessing",
-                             1962));
-        novels.add(new Novel("Go Tell It on the Mountain",
-                             "James Baldwin",
-                             1953));
-        novels.add(new Novel("Gone with the Wind",
-                             "Margaret Mitchell",
-                             1936));
-        novels.add(new Novel("The Grapes of Wrath",
-                             "John Steinbeck",
-                             1939));
-        novels.add(new Novel("Gravity's Rainbow",
-                             "Thomas Pynchon",
-                             1973));
-        novels.add(new Novel("The Great Gatsby",
-                             "F. Scott Fitzgerald",
-                             1925));
-        novels.add(new Novel("A Handful of Dust",
-                             "Evelyn Waugh",
-                             1934));
-        novels.add(new Novel("The Heart Is a Lonely Hunter",
-                             "Carson McCullers",
-                             1940));
-        novels.add(new Novel("The Heart of the Matter",
-                             "Graham Greene",
-                             1948));
-        novels.add(new Novel("Herzog",
-                             "Saul Bellow",
-                             1964));
-        novels.add(new Novel("Housekeeping",
-                             "Marilynne Robinson",
-                             1981));
-        novels.add(new Novel("A House for Mr. Biswas",
-                             "V.S. Naipaul",
-                             1962));
-        novels.add(new Novel("I, Claudius",
-                             "Robert Graves",
-                             1934));
-        novels.add(new Novel("Infinite Jest",
-                             "David Foster Wallace",
-                             1996));
-        novels.add(new Novel("Invisible Man",
-                             "Ralph Ellison",
-                             1952));
-        novels.add(new Novel("Light in August",
-                             "William Faulkner",
-                             1932));
-        novels.add(new Novel("The Lion, The Witch and the Wardrobe",
-                             "C.S. Lewis",
-                             1950));
-        novels.add(new Novel("Lolita",
-                             "Vladimir Nabokov",
-                             1955));
-        novels.add(new Novel("Lord of the Flies",
-                             "William Golding",
-                             1954));
-        novels.add(new Novel("The Lord of the Rings",
-                             "J.R.R. Tolkien",
-                             1954));
-        novels.add(new Novel("Loving",
-                             "Henry Green",
-                             1945));
-        novels.add(new Novel("Lucky Jim",
-                             "Kingsley Amis",
-                             1954));
-        novels.add(new Novel("The Man Who Loved Children",
-                             "Christina Stead",
-                             1940));
-        novels.add(new Novel("Midnight's Children",
-                             "Salman Rushdie",
-                             1981));
-        novels.add(new Novel("Money",
-                             "Martin Amis",
-                             1984));
-        novels.add(new Novel("The Moviegoer",
-                             "Walker Percy",
-                             1961));
-        novels.add(new Novel("Mrs. Dalloway",
-                             "Virginia Woolf",
-                             1925));
-        novels.add(new Novel("Naked Lunch",
-                             "William Burroughs",
-                             1959));
-        novels.add(new Novel("Native Son",
-                             "Richard Wright",
-                             1940));
-        novels.add(new Novel("Neuromancer",
-                             "William Gibson",
-                             1984));
-        novels.add(new Novel("Never Let Me Go",
-                             "Kazuo Ishiguro",
-                             2005));
-        novels.add(new Novel("1984",
-                             "George Orwell",
-                             1948));
-        novels.add(new Novel("On the Road",
-                             "Jack Kerouac",
-                             1957));
-        novels.add(new Novel("One Flew Over the Cuckoo's Nest",
-                             "Ken Kesey",
-                             1962));
-        novels.add(new Novel("The Painted Bird",
-                             "Jerzy Kosinski",
-                             1965));
-        novels.add(new Novel("Pale Fire",
-                             "Vladimir Nabokov",
-                             1962));
-        novels.add(new Novel("A Passage to India",
-                             "E.M. Forster",
-                             1924));
-        novels.add(new Novel("Play It as It Lays",
-                             "Joan Didion",
-                             1970));
-        novels.add(new Novel("Portnoy's Complaint",
-                             "Philip Roth",
-                             1969));
-        novels.add(new Novel("Possession",
-                             "A.S. Byatt",
-                             1990));
-        novels.add(new Novel("The Power and the Glory",
-                             "Graham Greene",
-                             1939));
-        novels.add(new Novel("The Prime of Miss Jean Brodie",
-                             "Muriel Spark",
-                             1961));
-        novels.add(new Novel("Rabbit, Run",
-                             "John Updike",
-                             1960));
-        novels.add(new Novel("Ragtime",
-                             "E.L. Doctorow",
-                             1975));
-        novels.add(new Novel("The Recognitions",
-                             "William Gaddis",
-                             1955));
-        novels.add(new Novel("Red Harvest",
-                             "Dashiell Hammett",
-                             1929));
-        novels.add(new Novel("Revolutionary Road",
-                             "Richard Yates",
-                             1961));
-        novels.add(new Novel("The Sheltering Sky",
-                             "Paul Bowles",
-                             1949));
-        novels.add(new Novel("Slaughterhouse-Five",
-                             "Kurt Vonnegut",
-                             1969));
-        novels.add(new Novel("Snow Crash",
-                             "Neal Stephenson",
-                             1992));
-        novels.add(new Novel("The Sot-Weed Factor",
-                             "John Barth",
-                             1960));
-        novels.add(new Novel("The Sound and the Fury",
-                             "William Faulkner",
-                             1929));
-        novels.add(new Novel("The Sportswriter",
-                             "Richard Ford",
-                             1986));
-        novels.add(new Novel("The Spy Who Came in from the Cold",
-                             "John le Carré",
-                             1964));
-        novels.add(new Novel("The Sun Also Rises",
-                             "Ernest Hemingway",
-                             1926));
-        novels.add(new Novel("Their Eyes Were Watching God",
-                             "Zora Neale Hurston",
-                             1937));
-        novels.add(new Novel("Things Fall Apart",
-                             "Chinua Achebe",
-                             1959));
-        novels.add(new Novel("To Kill a Mockingbird",
-                             "Harper Lee",
-                             1960));
-        novels.add(new Novel("To the Lighthouse",
-                             "Virginia Woolf",
-                             1929));
-        novels.add(new Novel("Tropic of Cancer",
-                             "Henry Miller",
-                             1934));
-        novels.add(new Novel("Ubik",
-                             "Philip K. Dick",
-                             1969));
-        novels.add(new Novel("Under the Net",
-                             "Iris Murdoch",
-                             1954));
-        novels.add(new Novel("Under the Volcano",
-                             "Malcolm Lowry",
-                             1947));
-        novels.add(new Novel("Watchmen",
-                             "Alan Moore and Dave Gibbons",
-                             1986));
-        novels.add(new Novel("White Noise",
-                             "Don DeLillo",
-                             1985));
-        novels.add(new Novel("White Teeth",
-                             "Zadie Smith",
-                             2000));
-        novels.add(new Novel("Wide Sargasso Sea",
-                             "Jean Rhys",
-                             1966));
-
-
-        Map<String, Novel> novelMap;
-        novelMap = new HashMap<String, Novel>();
-
-        for (Novel novel : novels)
-        {
-            if (novel != null && novel.getTitle() != null)
-            {
-                novelMap.put(novel.getTitle(),
-                             novel);
-            }
-        }
-
-        final Set<String> novelKeySet;
-        novelKeySet = novelMap.keySet();
-
-        final Iterator<String> novelIterator;
-        novelIterator = novelKeySet.iterator();
-
-        //Print out all titles with hash map
-        while (novelIterator.hasNext())
-        {
-            final String key;
-            key = novelIterator.next();
-            System.out.println(novelMap.get(key));
-        }
-        System.out.println();
-
-
-        final Iterator<String> novelRemovalIterator;
-        novelRemovalIterator = novelKeySet.iterator();
-
-        //Remove all "the"
-        while (novelRemovalIterator.hasNext())
-        {
-            final String key;
-            key = novelRemovalIterator.next();
-
-            if (novelMap.get(key).getTitle().toLowerCase().contains("the")) {
-                System.out.println("Removed:");
-                System.out.println(novelMap.get(key));
-                novelRemovalIterator.remove(); // Remove the current entry safely
-            }
-        }
-
-
-        // Converting to list & sorting
-        final List<String> keyList;
-        keyList = new ArrayList<String>(novelKeySet);
-
-        Collections.sort(keyList);
-
-        System.out.println("\nSorted no \"the\"");
-        for (final String key : keyList)
-        {
-            System.out.println(novelMap.get(key));
-        }
-
+        items     = new ArrayList<>();
     }
 
     /**
@@ -408,7 +46,7 @@ public class BookStore
      */
     private void validateName(final String name)
     {
-        if (name == null || name.isEmpty())
+        if(name == null || name.isEmpty())
         {
             throw new IllegalArgumentException("Name cannot be null or empty");
         }
@@ -425,48 +63,154 @@ public class BookStore
     }
 
     /**
-     * Prints all {@link Novel} titles in uppercase.
-     * If no novels are found, prints "No novels found".
+     * Returns the number of books in the bookstore
+     *
+     * @return the number of books
      */
-    public void printAllTitles()
+    public int getNumBooks()
     {
-        if (novels.isEmpty())
+        return items.size();
+    }
+
+    /**
+     * Holds a function to display a BookStore's info.
+     */
+    static class BookStoreInfo
+    {
+        /**
+         * Prints out a given bookstore's name and number of books.
+         *
+         * @param bookStore the bookstore who details to print
+         */
+        public void displayInfo(BookStore<? extends Literature> bookStore)
         {
-            System.out.println("No novels found");
-        } else
-        {
-            for (final Novel novel : novels)
-            {
-                if (novel != null && novel.getTitle() != null)
-                {
-                    System.out.println(novel.getTitle()
-                                            .toUpperCase());
-                }
-            }
+            System.out.println("BookStore: " +
+                               bookStore.getName() +
+                               ", Items: " +
+                               bookStore.getNumBooks());
         }
     }
 
     /**
-     * Prints the titles of {@link Novel}s that contain a specified title fragment (case-insensitive).
+     * Holds functions to find the average title length and the most common year
+     * published for this bookstore.
+     */
+    class NovelStatistics
+    {
+        /**
+         * Returns the average title length of the bookstore.
+         * @return the average title length
+         */
+        public double averageTitleLength()
+        {
+            int totalLength;
+            totalLength = NOTHING;
+            for(final T item : items)
+            {
+                totalLength += item.getTitle()
+                                   .length();
+            }
+            return (double) totalLength / items.size();
+        }
+
+        /**
+         * Returns the most common publishing year for this bookstore.
+         * @return the most common publishing year
+         */
+        public int findMostCommonPublishingYear()
+        {
+
+            final Map<Integer, Integer> yearCounts;
+            yearCounts = new HashMap<>();
+
+            for(Literature item : items)
+            {
+                final Integer yearPublished;
+                yearPublished = item.getYearPublished();
+
+
+                if(!yearCounts.containsKey(yearPublished))
+                {
+                    yearCounts.put(yearPublished,
+                                   0);
+                }
+                else
+                {
+                    final int currentCount;
+                    currentCount = yearCounts.get(yearPublished);
+                    yearCounts.put(yearPublished,
+                                   currentCount + 1);
+                }
+            }
+
+            final Set<Integer>      yearKeySet;
+            final Iterator<Integer> yearCountsIterator;
+            int                     mostCommonYear;
+
+            yearKeySet         = yearCounts.keySet();
+            yearCountsIterator = yearKeySet.iterator();
+            mostCommonYear     = yearCountsIterator.next();
+
+            while(yearCountsIterator.hasNext())
+            {
+                final Integer year;
+                final Integer yearFrequency;
+
+                year          = yearCountsIterator.next();
+                yearFrequency = yearCounts.get(year);
+
+                if(yearFrequency > mostCommonYear)
+                {
+                    mostCommonYear = year;
+                }
+            }
+
+            return mostCommonYear;
+        }
+    }
+
+    /**
+     * Adds an item to the bookstore.
      *
-     * @param title the title fragment to search for
+     * @param item an object which extends literature to add
+     */
+    public void addItem(T item)
+    {
+        items.add(item);
+    }
+
+    /**
+     * Prints out each item in the bookstore
+     */
+    public void printItems()
+    {
+        for(T item : items)
+        {
+            System.out.println(item);
+        }
+    }
+
+    /**
+     * Prints the title of each item in this bookstore
+     * @param title the title of each book in the bookstore.
      */
     public void printBookTitle(final String title)
     {
-        if (novels.isEmpty())
+        if(items.isEmpty())
         {
-            System.out.println("No novels found");
-        } else
+            System.out.println("No items found");
+        }
+        else
         {
-            for (final Novel novel : novels)
+            for(final Literature item : items)
             {
-                if (novel != null &&
-                    novel.getTitle() != null &&
-                    novel.getTitle()
-                         .toLowerCase()
-                         .contains(title.toLowerCase()))
+                if(item != null &&
+                   item.getTitle() != null &&
+                   item.getTitle()
+                       .toLowerCase()
+                       .contains(title.toLowerCase()))
                 {
-                    System.out.println(novel.getTitle());
+                    System.out.println(item.getTitle());
                 }
             }
         }
@@ -474,102 +218,106 @@ public class BookStore
     }
 
     /**
-     * Prints all {@link Novel} titles in alphabetical order.
-     * If no novels are found, prints "No novels found".
+     * Prints all Literature titles in alphabetical order. If no items are
+     * found, prints "No items found".
      */
     public void printTitlesInAlphaOrder()
     {
-        if (novels.isEmpty())
+        if(items.isEmpty())
         {
-            System.out.println("No novels found");
-        } else
+            System.out.println("No items found");
+        }
+        else
         {
-            final List<Novel> sortedNovelArray;
-            sortedNovelArray = new ArrayList<Novel>();
+            final List<Literature> sortedItemArray;
+            sortedItemArray = new ArrayList<>();
 
 
-            for (final Novel novel : novels)
+            for(final Literature item : items)
             {
-                if (novel != null)
+                if(item != null)
                 {
-                    sortedNovelArray.add(novel);
+                    sortedItemArray.add(item);
                 }
             }
 
 
-            Collections.sort(sortedNovelArray);
+            Collections.sort(sortedItemArray);
 
-            for (final Novel novel : sortedNovelArray)
+            for(final Literature item : sortedItemArray)
             {
-                System.out.println(novel.getTitle());
+                System.out.println(item.getTitle());
             }
         }
     }
 
     /**
-     * Prints the titles of novels from a specific decade.
+     * Prints the titles of items from a specific decade.
      *
-     * @param decade the decade to filter novels by (e.g., 1990 for the 1990s)
+     * @param decade the decade to filter items by (e.g., 1990 for the 1990s)
      */
     public void printGroupByDecade(final int decade)
     {
-        if (novels.isEmpty())
+        if(items.isEmpty())
         {
-            System.out.println("No novels found");
-        } else
+            System.out.println("No items found");
+        }
+        else
         {
-            final List<Novel> decadeNovels = new ArrayList<>();
+            final List<Literature> decadeItems = new ArrayList<>();
 
-            for (final Novel novel : novels)
+            for(final Literature item : items)
             {
-                if (novel != null)
+                if(item != null)
                 {
-                    int year = novel.getYearPublished();
-                    if (year >= decade && year < decade + DECADE_DIFFERENCE)
+                    int year = item.getYearPublished();
+                    if(year >= decade && year < decade + DECADE_DIFFERENCE)
                     {
-                        decadeNovels.add(novel);
+                        decadeItems.add(item);
                     }
                 }
             }
 
-            if (decadeNovels.isEmpty())
+            if(decadeItems.isEmpty())
             {
-                System.out.println("No novels found from the " + decade + "s.");
-            } else
+                System.out.println("No items found from the " + decade + "s.");
+            }
+            else
             {
-                for (Novel novel : decadeNovels)
+                for(Literature item : decadeItems)
                 {
-                    System.out.println(novel.getTitle());
+                    System.out.println(item.getTitle());
                 }
             }
         }
     }
 
     /**
-     * Prints the title of the novel with the longest title.
-     * If no novels are found, prints "No novels found".
+     * Prints the title of the items with the longest title. If no items are
+     * found, prints "No items found".
      */
     public void getLongest()
     {
-        if (novels.isEmpty())
+        if(items.isEmpty())
         {
-            System.out.println("No novels found");
-        } else
+            System.out.println("No items found");
+        }
+        else
         {
-            Novel longestNovel = novels.getFirst(); // Get the first novel as the initial longest
-            for (final Novel novel : novels)
+            Literature longestItem = items.getFirst(); // Get the first item as the initial longest
+            for(final Literature item : items)
             {
-                if (novel != null &&
-                    novel.getTitle() != null &&
-                    novel.getTitle()
-                         .length() >
-                    longestNovel.getTitle()
-                                .length())
+                if(item != null &&
+                   item.getTitle() != null &&
+                   item.getTitle()
+                       .length() >
+                   longestItem.getTitle()
+                              .length())
                 {
-                    longestNovel = novel; // Update if a longer title is found
+                    longestItem = item; // Update if a longer title is found
                 }
             }
-            System.out.println(longestNovel.getTitle());
+            System.out.println(longestItem.getTitle());
         }
     }
 
@@ -585,9 +333,9 @@ public class BookStore
 
         result = false;
 
-        for (final Novel novel : novels)
+        for(final Literature item : items)
         {
-            if (novel != null && novel.getYearPublished() == year)
+            if(item != null && item.getYearPublished() == year)
             {
                 result = true;
             }
@@ -597,7 +345,8 @@ public class BookStore
     }
 
     /**
-     * Returns the amount of Books that contain that have the given word in their title.
+     * Returns the amount of Books that contain that have the given word in
+     * their title.
      *
      * @param word the word to check
      * @return the amount of books with the given word as an int
@@ -609,13 +358,13 @@ public class BookStore
         result = NOTHING;
 
 
-        for (final Novel novel : novels)
+        for(final Literature item : items)
         {
-            if (novel != null &&
-                novel.getTitle() != null &&
-                novel.getTitle()
-                     .toLowerCase()
-                     .contains(word.toLowerCase()))
+            if(item != null &&
+               item.getTitle() != null &&
+               item.getTitle()
+                   .toLowerCase()
+                   .contains(word.toLowerCase()))
             {
                 result++;
             }
@@ -625,7 +374,8 @@ public class BookStore
     }
 
     /**
-     * Returns the percent of books in the bookstore which were published between the given years (inclusive).
+     * Returns the percent of books in the bookstore which were published
+     * between the given years (inclusive).
      *
      * @param first the lower bound
      * @param last  the upper bound
@@ -639,33 +389,36 @@ public class BookStore
         result = NOTHING;
 
 
-        for (final Novel novel : novels)
+        for(final Literature item : items)
         {
-            if (novel != null && novel.getYearPublished() >= first && novel.getYearPublished() <= last)
+            if(item != null &&
+               item.getYearPublished() >= first &&
+               item.getYearPublished() <= last)
             {
                 result++;
             }
         }
 
-        return (double) result / novels.size() * PERCENT_CONSTANT;
+        return (double) result / items.size() * PERCENT_CONSTANT;
     }
 
     /**
      * Returns the oldest book by publishing year.
      *
-     * @return the oldest novel by publishing year.
+     * @return the oldest item by publishing year.
      */
-    public Novel getOldestBook()
+    public Literature getOldestBook()
     {
-        Novel oldestBook;
+        Literature oldestBook;
 
-        oldestBook = novels.get(FIRST_NOVEL);
+        oldestBook = items.get(FIRST_BOOK);
 
-        for (final Novel novel : novels)
+        for(final Literature item : items)
         {
-            if (novel != null && novel.getYearPublished() < oldestBook.getYearPublished())
+            if(item != null &&
+               item.getYearPublished() < oldestBook.getYearPublished())
             {
-                oldestBook = novel;
+                oldestBook = item;
             }
         }
 
@@ -676,58 +429,83 @@ public class BookStore
      * returns a list containing all the books with titles of the given length.
      *
      * @param titleLength the title length to check for
-     * @return a list of novel with titles of the specified length
+     * @return a list of items with titles of the specified length
      */
-    public List<Novel> getBooksThisLength(int titleLength)
+    public List<Literature> getBooksThisLength(int titleLength)
     {
-        final List<Novel> booksThisLength;
+        final List<Literature> booksThisLength;
         booksThisLength = new ArrayList<>();
 
-        for (final Novel novel : novels)
+        for(final Literature item : items)
         {
-            if (novel != null &&
-                novel.getTitle()
-                     .length() == titleLength)
+            if(item != null &&
+               item.getTitle()
+                   .length() == titleLength)
             {
-                booksThisLength.add(novel);
+                booksThisLength.add(item);
             }
         }
 
         return booksThisLength;
     }
 
+    /**
+     * Drives the program.
+     * @param args unused
+     */
     public static void main(final String[] args)
     {
-        final BookStore bookstore;
-        final Novel oldest;
-        final List<Novel> fifteenCharTitles;
+        final BookStore<Literature> store;
+        store = new BookStore<>("Test Store");
+        store.addItem(new Novel("War and Peace",
+                                "Leo Tolstoy",
+                                1869));
+        store.addItem(new ComicBook("Spider-Man",
+                                    "Stan Lee",
+                                    1962));
+        store.addItem(new Magazine("National Geographic",
+                                   "Gilbert Hovey Grosvenor",
+                                   1888));
+        store.addItem(new Novel("1984",
+                                "George Orwell",
+                                1949));
 
-        bookstore = new BookStore("Classic Novels Collection");
-        System.out.println("\nAll Titles in UPPERCASE:");
-        bookstore.printAllTitles();
-        System.out.println("\nBook Titles Containing 'the':");
-        bookstore.printBookTitle("the");
-        System.out.println("\nAll Titles in Alphabetical Order:");
-        bookstore.printTitlesInAlphaOrder();
-        System.out.println("\nBooks from the 2000s:");
-        bookstore.printGroupByDecade(2000);
-        System.out.println("\nLongest Book Title:");
-        bookstore.getLongest();
-        System.out.println("\nIs there a book written in 1950?");
-        System.out.println(bookstore.isThereABookWrittenIn(1950));
-        System.out.println("\nHow many books contain 'heart'?");
-        System.out.println(bookstore.howManyBooksContain("heart"));
-        System.out.println("\nPercentage of books written between 1940 and 1950:");
-        System.out.println(bookstore.whichPercentWrittenBetween(1940,
-                                                                1950) + "%");
-        System.out.println("\nOldest book:");
-        oldest = bookstore.getOldestBook();
-        System.out.println(oldest.getTitle() + " by " + oldest.getAuthorName() + ", " + oldest.getYearPublished());
-        System.out.println("\nBooks with titles 15 characters long:");
-        fifteenCharTitles = bookstore.getBooksThisLength(15);
-        fifteenCharTitles.forEach(novel -> System.out.println(novel.getTitle()));
+        store.addItem(new ComicBook("Batman",
+                                    "Bob Kane",
+                                    1939));
 
+        store.addItem(new Magazine("Time",
+                                   "Henry Luce",
+                                   1923));
 
+        store.addItem(new Novel("Moby-Dick",
+                                "Herman Melville",
+                                1851));
+
+        store.addItem(new ComicBook("Wonder Woman",
+                                    "William Moulton Marston",
+                                    1941));
+
+        store.addItem(new Magazine("Vogue",
+                                   "Arthur Baldwin Turnure",
+                                   1892));
+
+        store.addItem(new Novel("Pride and Prejudice",
+                                "Jane Austen",
+                                1813));
+
+        store.addItem(new ComicBook("Superman",
+                                    "Jerry Siegel and Joe Shuster",
+                                    1938));
+
+        store.addItem(new Magazine("The New Yorker",
+                                   "Harold Ross",
+                                   1925));
+
+        store.addItem(new Novel("The Great Gatsby",
+                                "F. Scott Fitzgerald",
+                                1925));
+        store.printItems(); // Should print titles from different item types
     }
 }
 
