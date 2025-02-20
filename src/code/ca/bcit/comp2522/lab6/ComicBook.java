@@ -4,7 +4,7 @@ package ca.bcit.comp2522.lab6;
  * Represents a Comic Book with a title, author, and year published.
  *
  * @author Ruan Chu
- * @author //TODO
+ * @author Andrew Hwang//TODO
  * @author
  * @version 2025
  */

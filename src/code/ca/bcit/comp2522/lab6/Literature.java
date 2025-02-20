@@ -4,9 +4,9 @@ package ca.bcit.comp2522.lab6;
  * Defines a piece of literature be defined by a title.
  *
  * @author Ryan Chu
+ * @author Andrew Hwang
  * @author
- * @author
- * @version
+ * @version 2025
  */
 abstract class Literature
         implements Comparable<Literature>
