@@ -1,18 +1,13 @@
 package ca.bcit.comp2522.lab6;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a BookStore with a name, and a list of Books.
  *
  * @author Ruan Chu
  * @author Justin Cardas
+ * @author Mohammad Sadeghi
  * @version 2025
  */
 class BookStore<T extends Literature>
@@ -99,6 +94,7 @@ class BookStore<T extends Literature>
     {
         /**
          * Returns the average title length of the bookstore.
+         *
          * @return the average title length
          */
         public double averageTitleLength()
@@ -115,6 +111,7 @@ class BookStore<T extends Literature>
 
         /**
          * Returns the most common publishing year for this bookstore.
+         *
          * @return the most common publishing year
          */
         public int findMostCommonPublishingYear()
@@ -133,8 +130,7 @@ class BookStore<T extends Literature>
                 {
                     yearCounts.put(yearPublished,
                                    0);
-                }
-                else
+                } else
                 {
                     final int currentCount;
                     currentCount = yearCounts.get(yearPublished);
@@ -192,6 +188,7 @@ class BookStore<T extends Literature>
 
     /**
      * Prints the title of each item in this bookstore that contains the specific parameter.
+     *
      * @param title the title of each book in the bookstore.
      */
     public void printBookTitle(final String title)
@@ -199,8 +196,7 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        }
-        else
+        } else
         {
 
             items.forEach(item ->
@@ -227,28 +223,21 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        }
-        else
+        } else
         {
             final List<Literature> sortedItemArray;
             sortedItemArray = new ArrayList<>();
 
+            items.forEach(item ->
+                          {
+                              if(item != null)
+                              {
+                                  sortedItemArray.add(item);
+                              }
+                          });
 
-            for(final Literature item : items)
-            {
-                if(item != null)
-                {
-                    sortedItemArray.add(item);
-                }
-            }
-
-
-            Collections.sort(sortedItemArray);
-
-            for(final Literature item : sortedItemArray)
-            {
-                System.out.println(item.getTitle());
-            }
+            sortedItemArray.sort(Comparator.comparing(Literature::getTitle, String::compareToIgnoreCase));
+            sortedItemArray.forEach(item -> System.out.println(item.getTitle()));
         }
     }
 
@@ -262,8 +251,7 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        }
-        else
+        } else
         {
             final List<Literature> decadeItems = new ArrayList<>();
 
@@ -282,8 +270,7 @@ class BookStore<T extends Literature>
             if(decadeItems.isEmpty())
             {
                 System.out.println("No items found from the " + decade + "s.");
-            }
-            else
+            } else
             {
                 for(Literature item : decadeItems)
                 {
@@ -302,8 +289,7 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        }
-        else
+        } else
         {
             Literature longestItem = items.getFirst(); // Get the first item as the initial longest
             for(final Literature item : items)
@@ -452,6 +438,7 @@ class BookStore<T extends Literature>
 
     /**
      * Drives the program.
+     *
      * @param args unused
      */
     public static void main(final String[] args)
@@ -507,6 +494,9 @@ class BookStore<T extends Literature>
                                 "F. Scott Fitzgerald",
                                 1925));
         store.printItems(); // Should print titles from different item types
+
+        // prints all titles in alphabetical order using the printTitlesInAlphaOrder method with method reference and lambda expression
+        store.printTitlesInAlphaOrder();
     }
 }
 
