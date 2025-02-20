@@ -8,6 +8,7 @@ import java.util.*;
  * @author Ruan Chu
  * @author Justin Cardas
  * @author Mohammad Sadeghi
+ * @author Andrew Hwang
  * @version 2025
  */
 class BookStore<T extends Literature>
@@ -437,6 +438,27 @@ class BookStore<T extends Literature>
     }
 
     /**
+     * Adds all novels, instantiated in this BookStore, to a given collection.
+     * <p>
+     * The method follows the PECS (Producer Extends, Consumer Super) principle, where
+     * the wildcard type (? super Novel) ensures that the collection can accept Novel
+     * objects or any of its superclasses.
+     * </p>
+     *
+     * @param novelCollection the collection to which Novel objects will be added
+     */
+    public void addNovelsToCollection(final List<? super Novel> novelCollection)
+    {
+        for (final T item : items)
+        {
+            if (item instanceof Novel)
+            {
+                novelCollection.add((Novel) item);
+            }
+        }
+    }
+
+    /**
      * Drives the program.
      *
      * @param args unused
@@ -497,6 +519,19 @@ class BookStore<T extends Literature>
 
         // prints all titles in alphabetical order using the printTitlesInAlphaOrder method with method reference and lambda expression
         store.printTitlesInAlphaOrder();
+
+        store.items.sort(new Comparator<Literature>()
+        {
+            @Override
+            public int compare(final Literature o1,
+                               final Literature o2)
+            {
+                return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
+            }
+        });
+
+        System.out.println("\nHere are the titles sorted by title length:");
+        store.printItems();
     }
 }
 
