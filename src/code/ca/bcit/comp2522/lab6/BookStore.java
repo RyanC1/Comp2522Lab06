@@ -191,7 +191,7 @@ class BookStore<T extends Literature>
     }
 
     /**
-     * Prints the title of each item in this bookstore
+     * Prints the title of each item in this bookstore that contains the specific parameter.
      * @param title the title of each book in the bookstore.
      */
     public void printBookTitle(final String title)
@@ -202,17 +202,18 @@ class BookStore<T extends Literature>
         }
         else
         {
-            for(final Literature item : items)
-            {
-                if(item != null &&
-                   item.getTitle() != null &&
-                   item.getTitle()
-                       .toLowerCase()
-                       .contains(title.toLowerCase()))
-                {
-                    System.out.println(item.getTitle());
-                }
-            }
+
+            items.forEach(item ->
+                          {
+                              if(item != null &&
+                                 item.getTitle() != null &&
+                                 item.getTitle()
+                                     .toLowerCase()
+                                     .contains(title.toLowerCase()))
+                              {
+                                  System.out.println(item.getTitle());
+                              }
+                          });
         }
 
     }
