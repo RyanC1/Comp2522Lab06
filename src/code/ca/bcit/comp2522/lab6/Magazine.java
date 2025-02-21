@@ -4,8 +4,8 @@ package ca.bcit.comp2522.lab6;
  * Represents a Magazine with a title, author, and year published.
  *
  * @author Ruan Chu
- * @author Andrew Hwang //TODO
- * @author
+ * @author Andrew Hwang
+ * @author Mohammad Sadeghi
  * @version 2025
  */
 class Magazine extends Literature

@@ -68,6 +68,14 @@ class BookStore<T extends Literature>
         return items.size();
     }
 
+    /*
+     * Returns the list of items in the bookstore (only for lab instructor)
+     */
+    private List<T> getItems()
+    {
+        return items;
+    }
+
     /**
      * Holds a function to display a BookStore's info.
      */
@@ -76,14 +84,15 @@ class BookStore<T extends Literature>
         /**
          * Prints out a given bookstore's name and number of books.
          *
-         * @param bookStore the bookstore who details to print
+         * @param name the name of the bookstore.
+         * @param numBooks the number of books in the bookstore.
          */
-        public void displayInfo(BookStore<? extends Literature> bookStore)
+        public void displayInfo(final String name, final int numBooks)
         {
             System.out.println("BookStore: " +
-                               bookStore.getName() +
+                               name +
                                ", Items: " +
-                               bookStore.getNumBooks());
+                               numBooks);
         }
     }
 
@@ -131,7 +140,8 @@ class BookStore<T extends Literature>
                 {
                     yearCounts.put(yearPublished,
                                    0);
-                } else
+                }
+                else
                 {
                     final int currentCount;
                     currentCount = yearCounts.get(yearPublished);
@@ -188,7 +198,8 @@ class BookStore<T extends Literature>
     }
 
     /**
-     * Prints the title of each item in this bookstore that contains the specific parameter.
+     * Prints the title of each item in this bookstore that contains the
+     * specific parameter.
      *
      * @param title the title of each book in the bookstore.
      */
@@ -197,7 +208,8 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        } else
+        }
+        else
         {
 
             items.forEach(item ->
@@ -224,7 +236,8 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        } else
+        }
+        else
         {
             final List<Literature> sortedItemArray;
             sortedItemArray = new ArrayList<>();
@@ -237,7 +250,7 @@ class BookStore<T extends Literature>
                               }
                           });
 
-            sortedItemArray.sort(Comparator.comparing(Literature::getTitle, String::compareToIgnoreCase));
+            sortedItemArray.sort(Literature::compareTo);
             sortedItemArray.forEach(item -> System.out.println(item.getTitle()));
         }
     }
@@ -252,7 +265,8 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        } else
+        }
+        else
         {
             final List<Literature> decadeItems = new ArrayList<>();
 
@@ -271,7 +285,8 @@ class BookStore<T extends Literature>
             if(decadeItems.isEmpty())
             {
                 System.out.println("No items found from the " + decade + "s.");
-            } else
+            }
+            else
             {
                 for(Literature item : decadeItems)
                 {
@@ -290,7 +305,8 @@ class BookStore<T extends Literature>
         if(items.isEmpty())
         {
             System.out.println("No items found");
-        } else
+        }
+        else
         {
             Literature longestItem = items.getFirst(); // Get the first item as the initial longest
             for(final Literature item : items)
@@ -440,18 +456,19 @@ class BookStore<T extends Literature>
     /**
      * Adds all novels, instantiated in this BookStore, to a given collection.
      * <p>
-     * The method follows the PECS (Producer Extends, Consumer Super) principle, where
-     * the wildcard type (? super Novel) ensures that the collection can accept Novel
-     * objects or any of its superclasses.
+     * The method follows the PECS (Producer Extends, Consumer Super) principle,
+     * where the wildcard type (? super Novel) ensures that the collection can
+     * accept Novel objects or any of its superclasses.
      * </p>
      *
-     * @param novelCollection the collection to which Novel objects will be added
+     * @param novelCollection the collection to which Novel objects will be
+     *                        added
      */
     public void addNovelsToCollection(final List<? super Novel> novelCollection)
     {
-        for (final T item : items)
+        for(final T item : items)
         {
-            if (item instanceof Novel)
+            if(item instanceof Novel)
             {
                 novelCollection.add((Novel) item);
             }
@@ -515,9 +532,37 @@ class BookStore<T extends Literature>
         store.addItem(new Novel("The Great Gatsby",
                                 "F. Scott Fitzgerald",
                                 1925));
+
+        System.out.println("Items:");
         store.printItems(); // Should print titles from different item types
 
+        System.out.println("\nNovels");
+        store.items.forEach(x ->
+                      {
+                          if(x instanceof Novel)
+                          {
+                              System.out.println(x.getTitle());
+                          }
+                      });
+        System.out.println("\nMagazines");
+        store.items.forEach(x ->
+                      {
+                          if(x instanceof Magazine)
+                          {
+                              System.out.println(x.getTitle());
+                          }
+                      });
+        System.out.println("\nComic Books");
+        store.items.forEach(x ->
+                      {
+                          if(x instanceof ComicBook)
+                          {
+                              System.out.println(x.getTitle());
+                          }
+                      });
+
         // prints all titles in alphabetical order using the printTitlesInAlphaOrder method with method reference and lambda expression
+        System.out.println("\nItems in alpha order");
         store.printTitlesInAlphaOrder();
 
         store.items.sort(new Comparator<Literature>()
@@ -526,9 +571,19 @@ class BookStore<T extends Literature>
             public int compare(final Literature o1,
                                final Literature o2)
             {
-                return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
+                return Integer.compare(o1.getTitle()
+                                         .length(),
+                                       o2.getTitle()
+                                         .length());
             }
         });
+
+        System.out.println("\nBookstore info");
+        BookStoreInfo info = new BookStoreInfo();
+        info.displayInfo(store.getName(), store.getNumBooks());
+
+        BookStore<Literature>.NovelStatistics stats = store.new NovelStatistics();
+        System.out.println("\nAverage title length: " + stats.averageTitleLength());
 
         System.out.println("\nHere are the titles sorted by title length:");
         store.printItems();

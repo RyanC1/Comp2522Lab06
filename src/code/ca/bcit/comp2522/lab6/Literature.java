@@ -5,7 +5,7 @@ package ca.bcit.comp2522.lab6;
  *
  * @author Ryan Chu
  * @author Andrew Hwang
- * @author
+ * @author Mohammad Sadeghi
  * @version 2025
  */
 abstract class Literature
@@ -35,7 +35,6 @@ abstract class Literature
 
         this.title      = fixBlankTitle(title);
         this.authorName = fixBlankAuthorName(authorName);
-        ;
         this.yearPublished = yearPublished;
     }
 
