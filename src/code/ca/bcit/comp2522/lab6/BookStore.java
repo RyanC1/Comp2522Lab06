@@ -532,6 +532,9 @@ class BookStore<T extends Literature>
 
         System.out.println("\nHere are the titles sorted by title length:");
         store.printItems();
+
+        System.out.println("\nHere are the titles that contain the letter \"a\": ");
+        store.printBookTitle("a");
     }
 }
 
